@@ -7,8 +7,114 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="./styles.css">
+        <link rel="stylesheet" href="./modal.css">
+        <link rel="stylesheet" href="./variables.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     </head>
     <body>
+        <header>
+            <div class='main-head'>
+                <img src="./assests/pokemon header.png" alt="choose your pokemon header">
+            </div>
+        </header>
+
+        <section class="card carousel">
+            <div class="button">
+                <div class="deck-button-left" >
+                    <div data-reset class="deck-wrapper">
+                        <i  class="bi bi-x-circle-fill"></i>
+                        <div class="deck-label">Reset</div>
+                    </div>
+                </div>
+                <button id="add-to">
+                <div class="poke-ball-design-1"></div>
+                <div class="poke-ball-design-2"></div>
+                <div class="poke-ball-design-4"></div>
+                <div class="poke-ball-design-3"></div>
+                </button>
+                <div class="deck-button-right" >
+                    <div data-open class="deck-wrapper">
+                        <i class="bi bi-stack"></i>
+                        <div class="deck-label">My Deck</div>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-ctrl-container">
+                <div class='prev'>
+                    <i class="bi bi-arrow-left-circle-fill"></i>
+                </div>
+                <div class="next">
+                    <i class="bi bi-arrow-right-circle-fill"></i>
+                </div>
+            </div>
+            <div class="label">
+                <div>Click Pokeball to capture</div>
+            </div>
+            <div class="load">
+                <div>Loading...</div>
+            </div>
+            <div class="poke-carousel" >
+                
+                <!-- Cards added through main.js -->
+
+            </div>
+        </section>
+        <!-- modal pop up -->
+        <div  class="modal">
+            <div id="pop-up" class="background">
+                <div class="header-bar">
+                    <div>My Deck</div>
+                    <div class='sort' data-sort>
+                        <div>Sort</div> 
+                        <i class="sort-abc bi bi-sort-alpha-down is-visible"></i>
+                        <i class="sort-cba bi bi-sort-alpha-down-alt "></i>
+                    </div>
+                    <div data-close><i class="bi bi-x"></i></div>
+                </div>
+                <div class="grid-container">
+                    
+                    <!-- Cards added to MyDeck through main.js -->
+                </div>
+                <div class="information">
+                    <div class="type-row">
+                        <div>Water Types : </div>
+                        <div class="type-count" id="water">0</div>
+                    </div>
+                    <div class="type-row">
+                        <div>Fire Types : </div>
+                        <div class="type-count" id="fire">0</div>
+                    </div>
+                    <div class="type-row">
+                        <div>Electric Types : </div>
+                        <div class="type-count" id="electric">0</div>
+                    </div>
+                    <div class="type-row">
+                        <div>Grass Types : </div>
+                        <div class="type-count" id="grass">0</div>
+                    </div>
+                    <div class="type-row">
+                        <div>Normal Types : </div>
+                        <div class="type-count" id="normal">0</div>
+                    </div>
+                    <div class="type-row">
+                        <div>Fighting Types : </div>
+                        <div class="type-count" id="fighting">0</div>
+                    </div>
+                    <div class="type-row">
+                        <div>Fairy Types : </div>
+                        <div class="type-count" id="fairy">0</div>
+                    </div>
+                    <div class="type-row">
+                        <div>Poison Types : </div>
+                        <div class="type-count" id="poison">0</div>
+                    </div>
+                    <div class="type-row">
+                        <div>Psychic Types : </div>
+                        <div class="type-count" id="psychic">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script src="./main.js"></script>
     </body>
 </html>

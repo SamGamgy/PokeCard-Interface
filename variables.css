@@ -1,0 +1,88 @@
+[data-type = 'electric'] {
+    --background-img: url(./assests/Textures/electric.png);
+}   
+[data-type = 'fire'] {
+    --background-img: url(./assests/Textures/fire.png);
+}   
+[data-type = 'grass'] {
+    --background-img: url(./assests/Textures/green.png);
+}   
+[data-type = 'water'] {
+    --background-img: url(./assests/Textures/water.png);
+}   
+[data-type = 'electric'] {
+    --background-img: url(./assests/Textures/electric.png);
+}   
+[data-type = 'psychic'] {
+    --background-img: url(./assests/Textures/damngeller.png);
+}   
+[data-type = 'poison'] {
+    --background-img: url(./assests/Textures/damngeller.png);
+}   
+[data-type = 'fighting'] {
+    --background-img: url(./assests/Textures/punchout.png);
+}   
+[data-type = 'normal'] {
+    --background-img: url(./assests/Textures/sober.png);
+}   
+[data-type = 'fairy'] {
+    --background-img: url(./assests/Textures/fairy.png);
+}   
+
+
+@media (max-width:1007px ) {
+    .poke-carousel {
+        margin:90px 0 50px;
+    }
+      .poke-item.next {
+        opacity: 0.5;
+    }
+    .poke-item.previous {
+        opacity: 0.5;
+    }
+    .poke-item.next2 {
+        opacity: 0.3;
+    }
+    .poke-item.previous2 {
+        opacity: 0.3;
+    }
+    .poke-item.next3 {
+        opacity: 0;
+    }
+    .poke-item.previous3 {
+        opacity: 0;
+    }
+    .slide-ctrl-container .prev {
+        position: absolute;
+        left: -10%;
+        top: 375%;
+        z-index: 100;
+        opacity: 1;
+    }
+    .slide-ctrl-container .next {
+        position: absolute;
+        right: -10%;
+        top: 375%;
+        z-index: 100;
+        opacity: 1;
+    }
+}
+@media (max-width:640px ) {
+    .deck-button-left {
+        left: -100%;
+    }
+    .deck-button-right {
+        left: 120%;
+    }
+    .slide-ctrl-container .next {
+        right: 20%;
+        top: 675%;
+    }
+    .slide-ctrl-container .prev {
+        left: 20%;
+        top: 675%;
+    }
+    .type-row {
+        font-size: 15px;
+    }
+}

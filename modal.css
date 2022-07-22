@@ -1,0 +1,148 @@
+.modal{
+    width:100%;
+    max-width: 100%;
+    height:100%;
+}
+.background {
+    background: rgba(0, 0, 0, 0.534);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    width: 100%;
+    height: 100%;
+    transition: all 0.35s ease-in;
+    visibility: hidden;
+    opacity: 0;
+   
+}
+.header-bar {
+    height: 77px;
+    background: #d32a2a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 34px;
+    padding: 0 45px;
+    color: white;
+}
+
+.background.is-visible,
+div.sort i.bi.is-visible{
+    visibility: visible;
+    opacity: 1;
+}
+
+.bi.bi-x {
+    font-size: 55px;
+    cursor: pointer;
+}
+
+.sort{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    background: #d32a2a;
+    padding: 0.5rem 1rem;
+    max-width: 113px;
+    overflow: hidden;
+    border-radius: 40px;
+    color: white;
+    position:relative;
+}
+.sort-cba {
+    position: absolute;
+    right: 16px;
+}
+
+.sort:hover {
+    opacity: 0.5;
+}
+.sort i.bi {
+    font-size:40px;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.grid-container {
+    
+    overflow: hidden;
+    width: 100%;
+    white-space: nowrap;
+    height: 560px;
+    overflow-x: auto;
+    background: #e9e9e9d9;
+    
+}
+.grid-container .poke-item-small{
+   
+    width: 100%;
+    height: 100%;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    max-height: 400px;
+    max-width: 250px;
+    border: 12px solid rgb(255, 229, 10);
+    background-image: var(--background-img);
+    box-shadow: 0 22px 34px rgb(22 28 45 / 18%);
+    display: inline-block;
+    margin: 2rem;
+    cursor:initial;
+    transition: all 0.1s ease;
+    position: relative;
+    
+}
+
+.remove-overlay {
+    background: rgba(128, 128, 128, 0.514);
+    text-align:center;
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    z-index: 100;
+    padding-top:60%;
+    
+}
+
+.poke-item-small div.remove-overlay div i {
+    font-size:80px;
+    color:rgb(77, 76, 76);
+    cursor: pointer;
+}
+.poke-item-small div.remove-overlay div i:hover {
+    color:#d32a2a;
+}
+
+.poke-item-small .ability {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 1rem 0;
+    gap: 12px;
+    white-space: normal;
+}
+
+.information {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        align-items: center;
+        background: hsl(0deg 67% 50%);
+        color: white;
+        padding:0;
+        flex-wrap: wrap;
+    }
+.type-row {
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
+    font-size:1.1rem;
+}
