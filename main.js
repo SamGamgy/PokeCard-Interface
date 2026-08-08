@@ -43,8 +43,13 @@ function grabSecondData () {
 
         abilityEffect
         .then((data) => data.json())
-        .then((data) => 
-        secondData.push(data.flavor_text_entries[3].flavor_text));
+        .then((data) => {
+            // not every ability carries four English entries, fall back to the newest
+            const entries = (data.flavor_text_entries || []).filter((entry) => entry.language.name === 'en');
+            const chosen = entries[3] || entries[entries.length - 1];
+            secondData.push(chosen ? chosen.flavor_text.replace(/\s+/g, ' ') : 'No data available.');
+        })
+        .catch((err) => console.log(err));
         
     }    
 }    
@@ -57,6 +62,69 @@ timingFunction();
 const cardParent = document.querySelector('.poke-carousel');
 let pokeCard = '';
 
+// types that ship with their own emblem and their own counter row
+const SUPPORTED_TYPES = ['water', 'fire', 'electric', 'grass', 'normal', 'fighting', 'fairy', 'poison', 'psychic'];
+
+// colours used to draw a stand in emblem for a type we have no artwork for
+const TYPE_COLORS = {
+    bug: '#a8b820', dark: '#705848', dragon: '#7038f8', flying: '#a890f0',
+    ghost: '#705898', ground: '#e0c068', ice: '#98d8d8', rock: '#b8a038',
+    steel: '#b8b8d0', unknown: '#68a090'
+};
+
+// emblem for a type: the real artwork when we have it, otherwise a generated one
+function typeIcon(type) {
+    if (SUPPORTED_TYPES.includes(type)) {return `./assests/icons/${type}.png`}
+
+    const color = TYPE_COLORS[type] || TYPE_COLORS.unknown;
+    const letter = (type || '?').charAt(0).toUpperCase();
+    const svg =
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">` +
+        `<circle cx="32" cy="32" r="32" fill="${color}"/>` +
+        `<text x="32" y="45" font-family="Arial, sans-serif" font-size="38" font-weight="bold" fill="#fff" text-anchor="middle">${letter}</text>` +
+        `</svg>`;
+    return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
+
+// card markup, shared by the carousel and the scanner
+function cardMarkup({ pokeName, type, hp, id, height, weight, abilityName, effect, image, imageFallback, damage }) {
+    const icon = typeIcon(type);
+    const onError = imageFallback ? ` onerror="this.onerror=null;this.src='${imageFallback}'"` : '';
+
+    return `
+        <div class="poke-item " data-type="${type}">
+            <div class="card-header">
+                <div class="poke-name">${pokeName}</div>
+                <div class="right-side">
+                    <div class="poke-hp">${hp} HP</div>
+                    <div class="poke-type"><img src="${icon}" alt="icon"></div>
+                </div>
+            </div>
+            <div class='poke-img'>
+                <img src="${image}" alt="pokemon img"${onError}>
+            </div>
+            <div class="img-subhead">
+                <div class="species">${type} Pokemon.</div>
+                <div class="length">Height: ${height} </div>
+                <div class="weight">Weight: ${weight} </div>
+            </div>
+            <div class="ability">
+                <div class="poke-type"><img src="${icon}" alt="icon"></div>
+                <div class="ability-descript"><h4 class="ability-name">${abilityName}</h4> <br>Effect: ${effect} </div>
+                <div class="damage-amt"> ${damage} </div>
+            </div>
+        </div>
+        `;
+}
+
+// counter row for a type, falling back to the catch all row
+function bumpTypeCount(type, delta) {
+    const counter = document.getElementById(SUPPORTED_TYPES.includes(type) ? type : 'other');
+    if (!counter) {return}
+
+    const next = parseInt(counter.textContent, 10) + delta;
+    counter.textContent = next > 0 ? next : 0;
+}
 
 function createCards () {
 
@@ -75,31 +143,10 @@ function createCards () {
         let damage = Math.floor(Math.random() * 7) + 3;
 
         // HTML
-        pokeCard = 
-        `
-        <div class="poke-item " data-type="${type}">
-            <div class="card-header">
-                <div class="poke-name">${pokeName}</div>
-                <div class="right-side">
-                    <div class="poke-hp">${hp} HP</div>
-                    <div class="poke-type"><img src="./assests/icons/${type}.png" alt="icon"></div>
-                </div>
-            </div>
-            <div class='poke-img'> 
-                <img src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/${id}.png" alt="pokemon img">
-            </div>
-            <div class="img-subhead">
-                <div class="species">${type} Pokemon.</div>
-                <div class="length">Height: ${height} </div>
-                <div class="weight">Weight: ${weight} </div>
-            </div>
-            <div class="ability">
-                <div class="poke-type"><img src="./assests/icons/${type}.png" alt="icon"></div>
-                <div class="ability-descript"><h4 class="ability-name">${abilityName}</h4> <br>Effect: ${effect} </div>
-                <div class="damage-amt"> ${damage} </div>
-            </div>
-        </div>
-        `;
+        pokeCard = cardMarkup({
+            pokeName, type, hp, id, height, weight, abilityName, effect, damage,
+            image: `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${id}.png`
+        });
 
         // insert into DOM
         cardParent.insertAdjacentHTML('beforeend',pokeCard);
@@ -166,7 +213,8 @@ let current = setTimeout(() => randomNum() ,4200) ;
 function randomNum() {Math.floor(Math.random() * cards.length)};
 
 const update = () => {
-    if (current === cards.length) {current = 0}
+    if (!cards.length) {return}
+    if (current >= cards.length || current < 0 || isNaN(current)) {current = 0}
 
     let next = current < cards.length - 1 ? current + 1 : 0;
     let prev = current > 0 ? current - 1 : cards.length - 1;
@@ -289,12 +337,8 @@ pokeButton.addEventListener('click', () => {
         
 
         // update counter
-            let cardType = active.dataset.type;
-            let htmlType = document.getElementById(`${cardType}`)
-            let currentCount = htmlType.textContent
-            currentCount = parseInt(currentCount) + 1; 
-            htmlType.textContent = currentCount;
-        
+            bumpTypeCount(active.dataset.type, 1);
+
     },2000)
     
 })
@@ -331,18 +375,27 @@ let deckCards = document.querySelectorAll('.poke-item-small');
 
 function updateDeckCard() {
 
+    deckCards = document.querySelectorAll('.poke-item-small');
+
     for(const card of deckCards){
 
+        // only wire a card up once, otherwise every call stacks another overlay
+        if (card.dataset.hoverReady) {continue}
+        card.dataset.hoverReady = 'true';
+
         card.addEventListener('mouseenter', () => {
+            // the same element travels back to the carousel, no overlay there
+            if (!card.classList.contains('poke-item-small')) {return}
+            if (card.querySelector('[data-hover]')) {return}
             card.insertAdjacentHTML('afterbegin', cardOverlay);
 
-            let removeButton = document.querySelector('[data-remove]');
+            let removeButton = card.querySelector('[data-remove]');
             addButtonListener(removeButton)
+        })
 
-            card.addEventListener('mouseleave', () => {
-                let overlayElm = card.querySelector('[data-hover]');
-                overlayElm.remove();
-            })
+        card.addEventListener('mouseleave', () => {
+            let overlayElm = card.querySelector('[data-hover]');
+            if (overlayElm) {overlayElm.remove()}
         })
 
     }
@@ -354,6 +407,8 @@ function addButtonListener(elm) {
 
     elm.addEventListener('click', () => {
         let deckCard = elm.parentElement.parentElement.parentElement;
+        let overlay = deckCard.querySelector('[data-hover]');
+        if (overlay) {overlay.remove()}
 
         deckCard.classList.remove('poke-item-small')
         deckCard.classList.add('poke-item')
@@ -362,12 +417,7 @@ function addButtonListener(elm) {
         update();
 
         // update counter
-        let cardType = deckCard.dataset.type;
-        console.log(cardType);
-        let htmlType = document.getElementById(`${cardType}`)
-        let currentCount = htmlType.textContent
-        currentCount = parseInt(currentCount) - 1; 
-        htmlType.textContent = currentCount;
+        bumpTypeCount(deckCard.dataset.type, -1);
     } )
 
 }

@@ -1,6 +1,10 @@
+/* fallback texture for scanned cards of a type we have no artwork for */
+[data-type] {
+    --background-img: url(./assests/Textures/sober.png);
+}
 [data-type = 'electric'] {
     --background-img: url(./assests/Textures/electric.png);
-}   
+}
 [data-type = 'fire'] {
     --background-img: url(./assests/Textures/fire.png);
 }   

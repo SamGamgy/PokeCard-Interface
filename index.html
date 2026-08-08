@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="./styles.css">
         <link rel="stylesheet" href="./modal.css">
         <link rel="stylesheet" href="./variables.css">
+        <link rel="stylesheet" href="./scanner.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     </head>
     <body>
@@ -64,6 +65,10 @@
             <div id="pop-up" class="background">
                 <div class="header-bar">
                     <div>My Deck</div>
+                    <div class="deck-scan" data-scan-open>
+                        <i class="bi bi-camera-fill"></i>
+                        <div>Scan</div>
+                    </div>
                     <div class='sort' data-sort>
                         <div>Sort</div> 
                         <i class="sort-abc bi bi-sort-alpha-down is-visible"></i>
@@ -112,9 +117,56 @@
                         <div>Psychic Types : </div>
                         <div class="type-count" id="psychic">0</div>
                     </div>
+                    <div class="type-row">
+                        <div>Other Types : </div>
+                        <div class="type-count" id="other">0</div>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- card scanner -->
+        <button id="scan-open" class="scan-fab" type="button" data-scan-open>
+            <i class="bi bi-camera-fill"></i>
+            <span>Scan Card</span>
+        </button>
+
+        <div class="modal scanner-modal">
+            <div id="scan-pop-up" class="background">
+                <div class="scan-panel">
+                    <div class="header-bar">
+                        <div>Scan a Card</div>
+                        <div data-scan-close><i class="bi bi-x"></i></div>
+                    </div>
+                    <div class="scan-body">
+                        <div class="scan-stage">
+                            <video id="scan-video" playsinline muted></video>
+                            <img id="scan-preview" alt="captured card" hidden>
+                            <div id="scan-placeholder" class="scan-placeholder">Camera preview</div>
+                            <div id="scan-guide" class="scan-guide"><span>Fit the card name inside the box</span></div>
+                        </div>
+                        <div class="scan-controls">
+                            <button id="scan-start" class="scan-btn" type="button"><i class="bi bi-camera-video-fill"></i> Start Camera</button>
+                            <button id="scan-capture" class="scan-btn primary" type="button" disabled><i class="bi bi-camera-fill"></i> Capture &amp; Scan</button>
+                            <label class="scan-btn" for="scan-file"><i class="bi bi-upload"></i> Upload Photo</label>
+                            <input id="scan-file" type="file" accept="image/*" capture="environment" hidden>
+                        </div>
+                        <div id="scan-progress" class="scan-progress" hidden><div class="scan-progress-bar"></div></div>
+                        <div id="scan-status" class="scan-status">Start the camera and point it at a card, or upload a photo of one.</div>
+                        <div id="scan-results" class="scan-results"></div>
+                        <div class="scan-manual">
+                            <label for="scan-manual-input">No luck? Add it by name instead:</label>
+                            <div class="scan-manual-row">
+                                <input id="scan-manual-input" type="text" placeholder="e.g. Charizard" autocomplete="off">
+                                <button id="scan-manual-go" class="scan-btn primary" type="button">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script src="./main.js"></script>
+        <script src="./scanner.js"></script>
     </body>
 </html>
