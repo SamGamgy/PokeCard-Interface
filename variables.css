@@ -34,59 +34,79 @@
 }   
 
 
-@media (max-width:1007px ) {
-    .poke-carousel {
-        margin:90px 0 50px;
-    }
-      .poke-item.next {
-        opacity: 0.5;
-    }
-    .poke-item.previous {
-        opacity: 0.5;
-    }
-    .poke-item.next2 {
-        opacity: 0.3;
-    }
-    .poke-item.previous2 {
-        opacity: 0.3;
-    }
-    .poke-item.next3 {
-        opacity: 0;
-    }
+/* the fan sheds its outer cards as the screen narrows, so the neighbours never
+   have to sit off the edge of the viewport */
+@media (max-width: 1100px) {
+    .poke-item.next3,
     .poke-item.previous3 {
         opacity: 0;
     }
-    .slide-ctrl-container .prev {
-        position: absolute;
-        left: -10%;
-        top: 375%;
-        z-index: 100;
-        opacity: 1;
+    .poke-item.next2 {
+        transform: translate(150%, -18%);
+        opacity: 0.4;
     }
-    .slide-ctrl-container .next {
-        position: absolute;
-        right: -10%;
-        top: 375%;
-        z-index: 100;
-        opacity: 1;
+    .poke-item.previous2 {
+        transform: translate(-150%, -18%);
+        opacity: 0.4;
     }
 }
-@media (max-width:640px ) {
-    .deck-button-left {
-        left: -100%;
+
+@media (max-width: 820px) {
+    .poke-item.next2,
+    .poke-item.previous2 {
+        opacity: 0;
     }
-    .deck-button-right {
-        left: 120%;
+    .poke-item.next {
+        transform: translate(80%, -7%);
+        opacity: 0.55;
     }
-    .slide-ctrl-container .next {
-        right: 20%;
-        top: 675%;
+    .poke-item.previous {
+        transform: translate(-80%, -7%);
+        opacity: 0.55;
     }
-    .slide-ctrl-container .prev {
-        left: 20%;
-        top: 675%;
+}
+
+/* one card at a time on a phone, with room either side for the arrows */
+@media (max-width: 620px) {
+    .poke-item.next,
+    .poke-item.previous {
+        opacity: 0;
+    }
+    .poke-item {
+        max-width: min(250px, calc(100vw - 7rem));
+    }
+}
+
+/* short viewports, mostly phones held sideways: give the cards the room */
+@media (max-height: 520px) {
+    .header-bar {
+        min-height: 48px;
+        font-size: clamp(17px, 4vw, 24px);
+    }
+    .information {
+        max-height: 30vh;
+        padding: 0.25rem;
     }
     .type-row {
-        font-size: 15px;
+        margin: 0.15rem 0.4rem;
+        font-size: 0.78rem;
+    }
+    .poke-carousel {
+        margin-top: clamp(1.5rem, 5vw, 3rem);
+    }
+}
+
+/* icon only controls once the labels stop fitting */
+@media (max-width: 480px) {
+    .deck-scan div,
+    .sort > div:first-child {
+        display: none;
+    }
+    .sort {
+        max-width: none;
+        padding: 0.5rem;
+    }
+    .sort-cba {
+        right: 0.5rem;
     }
 }

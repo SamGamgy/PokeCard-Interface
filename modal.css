@@ -18,15 +18,24 @@
     opacity: 0;
    
 }
+/* the deck stacks header / cards / counters so the counters are always on screen */
+#pop-up.background {
+    display: flex;
+    flex-direction: column;
+}
+
 .header-bar {
-    height: 77px;
+    flex: 0 0 auto;
+    min-height: 64px;
     background: #d32a2a;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 34px;
-    padding: 0 45px;
+    gap: 0.5rem;
+    font-size: clamp(19px, 5vw, 34px);
+    padding: 0.5rem clamp(0.75rem, 3vw, 45px);
     color: white;
+    box-sizing: border-box;
 }
 
 .background.is-visible,
@@ -36,8 +45,9 @@ div.sort i.bi.is-visible{
 }
 
 .bi.bi-x {
-    font-size: 55px;
+    font-size: clamp(34px, 9vw, 55px);
     cursor: pointer;
+    line-height: 1;
 }
 
 .sort{
@@ -47,39 +57,46 @@ div.sort i.bi.is-visible{
     gap: 0.5rem;
     cursor: pointer;
     background: #d32a2a;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem clamp(0.5rem, 2vw, 1rem);
     max-width: 113px;
     overflow: hidden;
     border-radius: 40px;
     color: white;
     position:relative;
+    flex: 0 0 auto;
 }
 .sort-cba {
     position: absolute;
-    right: 16px;
+    right: clamp(0.5rem, 2vw, 16px);
 }
 
 .sort:hover {
     opacity: 0.5;
 }
 .sort i.bi {
-    font-size:40px;
+    font-size: clamp(26px, 7vw, 40px);
     visibility: hidden;
     opacity: 0;
 }
 
 .grid-container {
-    
-    overflow: hidden;
+
+    flex: 1 1 auto;
+    min-height: 0;
     width: 100%;
     white-space: nowrap;
-    height: 560px;
-    overflow-x: auto;
+    display: flex;
+    align-items: center;
+    /* on a short screen a centred card would overflow past the top where it
+       cannot be scrolled to, safe centring falls back to the top edge there */
+    align-items: safe center;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
     background: #e9e9e9d9;
-    
+
 }
 .grid-container .poke-item-small{
-   
+
     width: 100%;
     height: 100%;
     padding: 0.5rem 1rem;
@@ -90,7 +107,8 @@ div.sort i.bi.is-visible{
     background-image: var(--background-img);
     box-shadow: 0 22px 34px rgb(22 28 45 / 18%);
     display: inline-block;
-    margin: 2rem;
+    flex: 0 0 auto;
+    margin: clamp(0.75rem, 3vw, 2rem);
     cursor:initial;
     transition: all 0.1s ease;
     position: relative;
@@ -129,20 +147,24 @@ div.sort i.bi.is-visible{
 }
 
 .information {
+        flex: 0 0 auto;
         display: flex;
-        gap: 1rem;
+        gap: clamp(0.25rem, 2vw, 1rem);
         justify-content: center;
         align-items: center;
         background: hsl(0deg 67% 50%);
         color: white;
-        padding:0;
+        padding: 0.5rem;
         flex-wrap: wrap;
+        max-height: 38vh;
+        overflow-y: auto;
+        box-sizing: border-box;
     }
 .type-row {
-    margin: 1rem;
+    margin: clamp(0.2rem, 1.5vw, 1rem);
     display: flex;
     justify-content: center;
     align-items: center;
     gap:5px;
-    font-size:1.1rem;
+    font-size: clamp(0.8rem, 2.6vw, 1.1rem);
 }

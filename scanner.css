@@ -278,14 +278,16 @@
 }
 
 @media (max-width: 640px) {
+    /* out of the header's way and within thumb reach */
     .scan-fab {
-        top: 12px;
-        right: 12px;
-        padding: 0.6rem 1rem;
+        top: auto;
+        bottom: 16px;
+        right: 16px;
+        padding: 0.7rem 1.1rem;
         font-size: 16px;
     }
     .scan-fab .bi {
-        font-size: 20px;
+        font-size: 22px;
     }
     .scan-panel .header-bar {
         font-size: 22px;
