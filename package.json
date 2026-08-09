@@ -1,0 +1,9 @@
+{
+  "name": "pokecard-interface",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Pokemon card interface built with HTML, CSS and vanilla JavaScript.",
+  "engines": {
+    "node": "24.x"
+  }
+}
